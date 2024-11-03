@@ -84,8 +84,9 @@ public class MaterialsDataGenerator implements IDataGenerator {
 
         Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM);
         itemRegistry.forEach(item -> {
-            if (item instanceof MiningToolItem toolItem) {
-                item.getComponents().get(DataComponentTypes.TOOL).rules()
+            ToolComponent toolComponent = item.getComponents().get(DataComponentTypes.TOOL);
+            if (toolComponent != null) {
+                toolComponent.rules()
                         .stream().map(ToolComponent.Rule::blocks)
                         .forEach(blocks -> {
                             Optional<TagKey<Block>> tagKey = blocks.getTagKey();

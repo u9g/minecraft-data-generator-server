@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ToolComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.MiningToolItem;
@@ -83,9 +84,10 @@ public class MaterialsDataGenerator implements IDataGenerator {
 
         Registry<Item> itemRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ITEM);
         itemRegistry.forEach(item -> {
-            if (item instanceof MiningToolItem toolItem) {
-                item.getComponents().get(DataComponentTypes.TOOL).rules()
-                        .stream().map(rule -> rule.blocks())
+            ToolComponent toolComponent = item.getComponents().get(DataComponentTypes.TOOL);
+            if (toolComponent != null) {
+                toolComponent.rules()
+                        .stream().map(ToolComponent.Rule::blocks)
                         .forEach(blocks -> {
                             Optional<TagKey<Block>> tagKey = blocks.getTagKey();
                             if (tagKey.isPresent()) {
@@ -137,7 +139,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
             //Tools are handled rather easily and do not require anything else
             if (item instanceof MiningToolItem toolItem) {
                 item.getComponents().get(DataComponentTypes.TOOL).rules()
-                        .stream().map(rule -> rule.blocks())
+                        .stream().map(ToolComponent.Rule::blocks)
                         .forEach(blocks -> {
                                     Optional<TagKey<Block>> tagKey = blocks.getTagKey();
                                     if (tagKey.isPresent()) {
@@ -157,7 +159,8 @@ public class MaterialsDataGenerator implements IDataGenerator {
                     leavesMaterialSpeeds.put(item, 1.5f);
                     gourdMaterialSpeeds.put(item, 1.5f);
                 }
-            }});
+            }
+        });
 
         COMPOSITE_MATERIALS.forEach(values -> createCompositeMaterial(materialMiningSpeeds, values));
 

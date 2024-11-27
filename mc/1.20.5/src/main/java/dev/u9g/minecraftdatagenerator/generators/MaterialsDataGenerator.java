@@ -137,6 +137,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
         Map<String, Map<Item, Float>> materialMiningSpeeds = new LinkedHashMap<>();
         materialMiningSpeeds.put("default", ImmutableMap.of());
 
+        //Special materials used for shears and swords special mining speed logic
         Map<Item, Float> leavesMaterialSpeeds = new LinkedHashMap<>();
         Map<Item, Float> cowebMaterialSpeeds = new LinkedHashMap<>();
         Map<Item, Float> plantMaterialSpeeds = new LinkedHashMap<>();
@@ -147,6 +148,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
         materialMiningSpeeds.put("plant", plantMaterialSpeeds);
         materialMiningSpeeds.put("gourd", gourdMaterialSpeeds);
 
+        //Shears need special handling because they do not follow normal rules like tools
         leavesMaterialSpeeds.put(Items.SHEARS, 15.0f);
         cowebMaterialSpeeds.put(Items.SHEARS, 15.0f);
         materialMiningSpeeds.put("vine_or_glow_lichen", ImmutableMap.of(Items.SHEARS, 2.0f));

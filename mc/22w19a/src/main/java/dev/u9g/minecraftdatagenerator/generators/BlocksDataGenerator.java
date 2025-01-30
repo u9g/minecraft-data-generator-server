@@ -5,6 +5,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.block.AirBlock;
+import net.minecraft.block.FluidBlock;
+import net.minecraft.block.BubbleColumnBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
@@ -134,7 +136,8 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("hardness", block.getHardness());
         blockDesc.addProperty("resistance", block.getBlastResistance());
         blockDesc.addProperty("stackSize", block.asItem().getMaxCount());
-        blockDesc.addProperty("diggable", block.getHardness() != -1.0f && !(block instanceof AirBlock));
+        boolean nonTargetable = block instanceof AirBlock || block instanceof FluidBlock || block instanceof BubbleColumnBlock;
+        blockDesc.addProperty("diggable", block.getHardness() != -1.0f && !nonTargetable);
 //        JsonObject effTools = new JsonObject();
 //        effectiveTools.forEach(item -> effTools.addProperty(
 //                String.valueOf(Registry.ITEM.getRawId(item)), // key
